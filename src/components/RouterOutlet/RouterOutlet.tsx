@@ -1,10 +1,9 @@
 import { useCallback } from 'react'
-import { Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import routes from '@/routes'
 import withPrivateRoute from '@/hocs/withPrivateRoute'
-import withPublicRoute from '@/hocs/withPublicRoute'
 
 import { selectIsAuthenticated } from '@/store/user'
 
@@ -20,9 +19,12 @@ function Routes() {
           path: route.path
         }
 
-        const withRoute = route.private ? withPrivateRoute : withPublicRoute
-        const Component = withRoute(route.component)
-        return <Component {...routeProps} authenticated={isAuthenticated} />
+        if (route.private) {
+          const Component = withPrivateRoute(route.component)
+          return <Component {...routeProps} authenticated={isAuthenticated} />
+        }
+
+        return <Route {...routeProps} component={route.component} />
       })
     },
     [isAuthenticated]

@@ -1,9 +1,10 @@
 import { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { ReactComponent as GoogleSvg } from '@/assets/svg/google.svg'
+import { Link, useHistory, useLocation } from 'react-router-dom'
+import querystring from 'querystring'
 
-import { signin, signInWithGoogle } from '@/services/firebase'
+import { signIn, signInWithGoogle } from '@/services/firebase'
+import { ReactComponent as GoogleSvg } from '@/assets/svg/google.svg'
 
 const Container = styled.div`
   display: grid;
@@ -103,27 +104,38 @@ function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
 
+  const history = useHistory()
+  const location = useLocation()
+
+  const redirectToTarget = useCallback(() => {
+    const query = querystring.parse(location.search)
+
+    history.push((query.redirectUrl as string) || '/')
+  }, [location.search, history])
+
   const handleSubmit = useCallback(
     async event => {
       event.preventDefault()
       setError(null)
 
       try {
-        await signin(email, password)
+        await signIn(email, password)
+        redirectToTarget()
       } catch (e) {
         setError(e.message)
       }
     },
-    [email, password]
+    [email, password, redirectToTarget]
   )
 
   const googleSignIn = useCallback(async () => {
     try {
       await signInWithGoogle()
+      redirectToTarget()
     } catch (e) {
       setError(e.message)
     }
-  }, [])
+  }, [redirectToTarget])
 
   const handleChange = useCallback(({ target }) => {
     const setter = {

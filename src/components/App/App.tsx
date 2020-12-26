@@ -14,12 +14,14 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    subscribeAuthChanged(user => {
+    const unsubscribe = subscribeAuthChanged(user => {
       const isAuthenticated = !!user
 
       dispatch(setIsAuthenticated(isAuthenticated))
       localStorage.setItem('isLoggedIn', JSON.stringify(isAuthenticated))
     })
+
+    return unsubscribe
   }, [dispatch])
 
   return (

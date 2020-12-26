@@ -20,11 +20,15 @@ export function subscribeAuthChanged(
   return auth().onAuthStateChanged(callback)
 }
 
-export function signin(email: string, password: string) {
+export function signIn(email: string, password: string) {
   return auth().signInWithEmailAndPassword(email, password)
 }
 
 export function signInWithGoogle() {
   const provider = new auth.GoogleAuthProvider()
   return auth().signInWithPopup(provider)
+}
+
+export function signOut() {
+  return auth().signOut()
 }

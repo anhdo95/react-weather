@@ -13,11 +13,13 @@ export default function withPrivateRoute(
             <WrappedComponent {...props} />
           ) : (
             <Redirect
-              to={{ pathname: '/login', state: { from: props.location } }}
+              to={{
+                pathname: '/login',
+                search: `redirectUrl=${props.location.pathname}`
+              }}
             />
           )
-        }
-      }
+        }}
       />
     )
   }
@@ -30,5 +32,5 @@ export default function withPrivateRoute(
 }
 
 interface Props {
-  authenticated: boolean,
+  authenticated: boolean
 }
