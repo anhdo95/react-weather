@@ -1,12 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useSelector } from 'react-redux'
+import { selectedIsAuthenticated } from '@/store/user'
 import './App.css';
 
-function App() {
+function App(props: any) {
+  const isAuthenticated = useSelector(selectedIsAuthenticated)
+  console.log('isAuthenticated :>> ', isAuthenticated);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
