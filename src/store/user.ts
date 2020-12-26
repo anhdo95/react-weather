@@ -9,11 +9,18 @@ interface State {
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    isAuthenticated: false,
+    isAuthenticated: false
   },
-  reducers: {}
+  reducers: {
+    setIsAuthenticated(state, action) {
+      state.isAuthenticated = action.payload
+    }
+  }
 })
 
 export const reducer = userSlice.reducer
 
-export const selectedIsAuthenticated = (state: State) => state.user.isAuthenticated
+export const selectIsAuthenticated = (state: State) =>
+  state.user.isAuthenticated
+
+export const { setIsAuthenticated } = userSlice.actions
