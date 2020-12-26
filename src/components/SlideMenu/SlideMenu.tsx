@@ -1,15 +1,19 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux';
+
+import { selectOpenSlideMenu } from '@/store/theme'
 
 import Footer from '@/components/Footer'
 
-const Container = styled.aside`
+const Container = styled.aside<{ open: boolean }>`
   position: fixed;
   left: 0;
   top: 0;
-  width: 100%;
+  width: ${props => props.open ? '100%' : 0};
   height: 100%;
   z-index: var(--z-index-menu);
+  overflow: hidden;
 
   &:before {
     content: '';
@@ -21,19 +25,20 @@ const Container = styled.aside`
     width: 100%;
     height: 100%;
     background-color: #505050;
-    opacity: 0;
-    transition: opacity 0.3s linear;
-    will-change: opacity;
+    opacity: 0.4;
   }
 `
 
-const Nav = styled.nav`
+const Nav = styled.nav<{ open: boolean }>`
   display: grid;
   grid-template-rows: auto 1fr auto;
   width: 90%;
   height: 100%;
   max-width: 320px;
+  background: #fff;
   box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
+  transform: translateX(${props => props.open ? 0 : '-100%'});
+  transition: transform 0.3s ease-in-out;
   will-change: transform;
 `
 
@@ -103,9 +108,11 @@ const RouteLink = styled(Link)`
 `
 
 function SlideMenu() {
+  const openSlideMenu = useSelector(selectOpenSlideMenu)
+
   return (
-    <Container>
-      <Nav>
+    <Container open={openSlideMenu}>
+      <Nav open={openSlideMenu}>
         <Header>
           <HeaderText>Welcome</HeaderText>
           <HeaderUser>

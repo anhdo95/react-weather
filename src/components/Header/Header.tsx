@@ -1,5 +1,7 @@
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components'
 
+import { toggleSlideMenu } from '@/store/theme'
 import SlideMenu from '@/components/SlideMenu'
 import ToggleButton from '@/components/ToggleButton'
 
@@ -56,11 +58,17 @@ const ModeToggleText = styled.span`
 
 
 function Header() {
+  const dispatch = useDispatch()
+
+  const handleHamburgerClick = function() {
+    dispatch(toggleSlideMenu())
+  }
+
   return (
     <Container>
       <SlideMenu />
       <Left>
-        <Hamburger />
+        <Hamburger onClick={handleHamburgerClick} />
         <Logo />
       </Left>
       <Heading>Today</Heading>
