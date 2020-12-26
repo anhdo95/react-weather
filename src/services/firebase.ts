@@ -20,6 +20,10 @@ export function subscribeAuthChanged(
   return auth().onAuthStateChanged(callback)
 }
 
+export function signUp(email: string, password: string) {
+  return auth().createUserWithEmailAndPassword(email, password);
+}
+
 export function signIn(email: string, password: string) {
   return auth().signInWithEmailAndPassword(email, password)
 }
