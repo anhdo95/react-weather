@@ -9,7 +9,7 @@ interface State {
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    isAuthenticated: false
+    isAuthenticated: JSON.parse(localStorage.getItem('isLoggedIn') as string)
   },
   reducers: {
     setIsAuthenticated(state, action) {

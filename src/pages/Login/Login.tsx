@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { ReactComponent as GoogleSvg } from '@/assets/svg/google.svg'
 
-import { signin } from '@/services/firebase'
+import { signin, signInWithGoogle } from '@/services/firebase'
 
 const Container = styled.div`
   display: grid;
@@ -49,12 +50,35 @@ const FormInput = styled.input.attrs(() => ({
   className: 'form-control'
 }))``
 
-const FormSubmit = styled.button.attrs(() => ({
+const FormActions = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 1rem;
+`
+
+const LoginButton = styled.button.attrs(() => ({
   type: 'submit',
-  className: 'form-button'
+  className: 'form-button form-button--primary'
 }))`
   width: 100%;
   max-width: 200px;
+`
+
+const GoogleIcon = styled(GoogleSvg)`
+  width: 24px;
+  height: 24px;
+`
+
+const LoginWithGoogleButton = styled.button.attrs(() => ({
+  className: 'form-button',
+  type: 'button'
+}))`
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 0.25rem;
+  align-items: center;
+  width: 100%;
+  max-width: 220px;
 `
 
 const SignupLinkContainer = styled.div`
@@ -93,6 +117,14 @@ function Login() {
     [email, password]
   )
 
+  const googleSignIn = useCallback(async () => {
+    try {
+      await signInWithGoogle()
+    } catch (e) {
+      setError(e.message)
+    }
+  }, [])
+
   const handleChange = useCallback(({ target }) => {
     const setter = {
       email: setEmail,
@@ -108,9 +140,7 @@ function Login() {
         <CardContent>
           <CardHeading>Login</CardHeading>
           <Form onSubmit={handleSubmit}>
-            <summary className="form-error">
-              {error}
-            </summary>
+            <summary className="form-error">{error}</summary>
             <FormInput
               type="email"
               name={FormControlName.Email}
@@ -128,7 +158,13 @@ function Login() {
               onChange={handleChange}
               required
             />
-            <FormSubmit>Login</FormSubmit>
+            <FormActions>
+              <LoginButton>Login</LoginButton>
+              <LoginWithGoogleButton onClick={googleSignIn}>
+                <GoogleIcon />
+                Google
+              </LoginWithGoogleButton>
+            </FormActions>
           </Form>
           <SignupLinkContainer>
             <SignupLinkNotice>Don't have an account?</SignupLinkNotice>

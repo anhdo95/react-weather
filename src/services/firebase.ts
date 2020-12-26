@@ -10,10 +10,21 @@ const config = {
 }
 
 firebase.initializeApp(config)
+firebase.database()
 
-export const auth = firebase.auth
-export const db = firebase.database()
+const auth = firebase.auth
+
+export function subscribeAuthChanged(
+  callback: (a: firebase.User | null) => any
+): firebase.Unsubscribe {
+  return auth().onAuthStateChanged(callback)
+}
 
 export function signin(email: string, password: string) {
   return auth().signInWithEmailAndPassword(email, password)
+}
+
+export function signInWithGoogle() {
+  const provider = new auth.GoogleAuthProvider()
+  return auth().signInWithPopup(provider)
 }

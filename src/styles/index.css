@@ -61,12 +61,17 @@ body {
 
 .form-button {
   padding: 1rem 2rem;
-  color: #fff;
-  background: var(--color-primary);
+  color: #333;
+  background: #f0f0f0;
   border: none;
   outline: none;
   border-radius: 100px;
   cursor: pointer;
+}
+
+.form-button--primary {
+  color: #fff;
+  background: var(--color-primary);
 }
 
 .form-error {
