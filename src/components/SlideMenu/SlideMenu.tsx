@@ -1,16 +1,18 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 
+import { selectCurrentUser } from '@/store/user'
 import { selectOpenSlideMenu } from '@/store/theme'
 
 import Footer from '@/components/Footer'
+import DefaultAvatar from '@/assets/images/default-avatar.png';
 
 const Container = styled.aside<{ open: boolean }>`
   position: fixed;
   left: 0;
   top: 0;
-  width: ${props => props.open ? '100%' : 0};
+  width: ${props => (props.open ? '100%' : 0)};
   height: 100%;
   z-index: var(--z-index-menu);
   overflow: hidden;
@@ -37,7 +39,7 @@ const Nav = styled.nav<{ open: boolean }>`
   max-width: 320px;
   background: #fff;
   box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
-  transform: translateX(${props => props.open ? 0 : '-100%'});
+  transform: translateX(${props => (props.open ? 0 : '-100%')});
   transition: transform 0.3s ease-in-out;
   will-change: transform;
 `
@@ -108,6 +110,7 @@ const RouteLink = styled(Link)`
 `
 
 function SlideMenu() {
+  const currentUser = useSelector(selectCurrentUser)
   const openSlideMenu = useSelector(selectOpenSlideMenu)
 
   return (
@@ -115,10 +118,12 @@ function SlideMenu() {
       <Nav open={openSlideMenu}>
         <Header>
           <HeaderText>Welcome</HeaderText>
-          <HeaderUser>
-            <HeaderUserAvatar src="https://anhdo95.github.io/images/my-avatar-400w55db49248c89c33f5fc4a33c7ad45c05.jpg" />
-            <HeaderUserEmail>anhdo5995@gmail.com</HeaderUserEmail>
-          </HeaderUser>
+          {currentUser && (
+            <HeaderUser>
+              <HeaderUserAvatar src={currentUser.photoURL || DefaultAvatar} />
+              <HeaderUserEmail>{currentUser.email}</HeaderUserEmail>
+            </HeaderUser>
+          )}
         </Header>
         <Body>
           <RouteLinkContainer>

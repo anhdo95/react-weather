@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import { subscribeAuthChanged } from '@/services/firebase'
-import { setIsAuthenticated } from '@/store/user'
+import { setCurrentUser, setIsAuthenticated } from '@/store/user'
 
 import RouterOutlet from '@/components/RouterOutlet'
 import Header from '@/components/Header'
@@ -18,6 +18,7 @@ function App() {
       const isAuthenticated = !!user
 
       dispatch(setIsAuthenticated(isAuthenticated))
+      dispatch(setCurrentUser(user))
       localStorage.setItem('isLoggedIn', JSON.stringify(isAuthenticated))
     })
 
