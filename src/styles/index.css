@@ -68,3 +68,7 @@ body {
   border-radius: 100px;
   cursor: pointer;
 }
+
+.form-error {
+  color: #ec1818ee;
+}

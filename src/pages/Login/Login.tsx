@@ -1,5 +1,8 @@
+import { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+
+import { signin } from '@/services/firebase'
 
 const Container = styled.div`
   display: grid;
@@ -58,8 +61,7 @@ const SignupLinkContainer = styled.div`
   margin-top: 2rem;
 `
 
-const SignupLinkNotice = styled.span`
-`
+const SignupLinkNotice = styled.span``
 
 const SignupLink = styled(Link)`
   margin-left: 0.25rem;
@@ -67,15 +69,65 @@ const SignupLink = styled(Link)`
   color: var(--color-secondary);
 `
 
+enum FormControlName {
+  Email = 'email',
+  Password = 'password'
+}
+
 function Login() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
+
+  const handleSubmit = useCallback(
+    async event => {
+      event.preventDefault()
+      setError(null)
+
+      try {
+        await signin(email, password)
+      } catch (e) {
+        setError(e.message)
+      }
+    },
+    [email, password]
+  )
+
+  const handleChange = useCallback(({ target }) => {
+    const setter = {
+      email: setEmail,
+      password: setPassword
+    }[target.name as FormControlName]
+
+    setter(target.value)
+  }, [])
+
   return (
     <Container>
       <Card>
         <CardContent>
           <CardHeading>Login</CardHeading>
-          <Form>
-            <FormInput type="email" autoFocus placeholder="Email" required />
-            <FormInput type="password" placeholder="Password" required />
+          <Form onSubmit={handleSubmit}>
+            <summary className="form-error">
+              {error}
+            </summary>
+            <FormInput
+              type="email"
+              name={FormControlName.Email}
+              autoFocus
+              placeholder="Email"
+              value={email}
+              onChange={handleChange}
+              required
+            />
+            <FormInput
+              type="password"
+              name={FormControlName.Password}
+              placeholder="Password"
+              value={password}
+              onChange={handleChange}
+              required
+            />
             <FormSubmit>Login</FormSubmit>
           </Form>
           <SignupLinkContainer>
