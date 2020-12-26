@@ -1,3 +1,14 @@
+@import './reset.css';
+@import './normalize.css';
+
+:root {
+  --color-primary: #28b485;
+  --color-secondary: #7ed56f;
+
+  --z-index-menu: 100;
+  --z-index-menu-button: 150;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -17,7 +28,19 @@ body {
 
 #root {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   height: 100%;
+  overflow: hidden;
+}
+
+.heading-primary {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
   overflow: hidden;
 }

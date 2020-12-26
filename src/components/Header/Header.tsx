@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import SlideMenu from '@/components/SlideMenu'
 import ToggleButton from '@/components/ToggleButton'
 
 import { ReactComponent as HamburgerIcon } from '@/assets/svg/hamburger.svg'
@@ -9,6 +10,7 @@ const Container = styled.header`
   display: grid;
   grid-template-columns: auto 1fr auto;
   place-items: center;
+  height: 3.5rem;
   padding: 0 1rem;
   box-shadow: 0 0 2rem rgba(0,0,255,.1);
 `
@@ -21,8 +23,10 @@ const Left = styled.div`
 `
 
 const Hamburger = styled(HamburgerIcon)`
+  position: relative;
   width: 28px;
   height: 28px;
+  z-index: var(--z-index-menu-button);
   fill: #2b244d;
   cursor: pointer;
 `
@@ -31,7 +35,9 @@ const Logo = styled(LogoIcon)`
   width: 150px;
 `
 
-const Heading = styled.h3`
+const Heading = styled.h3.attrs(() => ({
+  className: 'heading-primary'
+}))`
   text-transform: uppercase;
   letter-spacing: .1rem;
 `
@@ -52,6 +58,7 @@ const ModeToggleText = styled.span`
 function Header() {
   return (
     <Container>
+      <SlideMenu />
       <Left>
         <Hamburger />
         <Logo />
