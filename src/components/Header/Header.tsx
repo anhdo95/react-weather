@@ -1,6 +1,7 @@
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components'
 
+import { selectIsAuthenticated } from '@/store/user'
 import { toggleSlideMenu } from '@/store/theme'
 import SlideMenu from '@/components/SlideMenu'
 import ToggleButton from '@/components/ToggleButton'
@@ -8,13 +9,14 @@ import ToggleButton from '@/components/ToggleButton'
 import { ReactComponent as HamburgerIcon } from '@/assets/svg/hamburger.svg'
 import { ReactComponent as LogoIcon } from '@/assets/svg/logo.svg'
 
-const Container = styled.header`
+const Container = styled.header<{ show: boolean }>`
   display: grid;
   grid-template-columns: auto 1fr auto;
   place-items: center;
-  height: 3.5rem;
+  height: ${props => props.show ? '3.5rem' : 0};
   padding: 0 1rem;
   box-shadow: 0 0 2rem rgba(0,0,255,.1);
+  overflow: hidden;
 `
 
 const Left = styled.div`
@@ -58,6 +60,7 @@ const ModeToggleText = styled.span`
 
 
 function Header() {
+  const isAuthenticated = useSelector(selectIsAuthenticated)
   const dispatch = useDispatch()
 
   const handleHamburgerClick = function() {
@@ -65,7 +68,7 @@ function Header() {
   }
 
   return (
-    <Container>
+    <Container show={isAuthenticated}>
       <SlideMenu />
       <Left>
         <Hamburger onClick={handleHamburgerClick} />

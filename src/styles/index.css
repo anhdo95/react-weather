@@ -44,3 +44,27 @@ body {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.form-control {
+  width: 100%;
+  padding: 1.25rem;
+  border: none;
+  outline: none;
+  border-radius: 100px;
+  box-shadow: 0 0 1rem rgba(0,0,255,.3);
+}
+
+.form-control,
+.form-control::placeholder {
+  color: #333;
+}
+
+.form-button {
+  padding: 1rem 2rem;
+  color: #fff;
+  background: var(--color-primary);
+  border: none;
+  outline: none;
+  border-radius: 100px;
+  cursor: pointer;
+}
