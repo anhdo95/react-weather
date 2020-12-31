@@ -1,7 +1,9 @@
+import WeatherCard from '@/components/WeatherCard'
+
 function Home() {
   return (
     <div>
-      Home
+      <WeatherCard />
     </div>
   )
 }
