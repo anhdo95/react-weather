@@ -1,4 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" height="5rem">
-  <circle cx="25" cy="25" r="25" fill="#25ae88"/>
-  <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M38 15L22 33l-10-8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1454.4 326.4 209.1 209.1">
+  <defs>
+    <style>
+      .color-primary {
+        fill: #28b485
+      }
+    </style>
+    <filter id="Ellipse" width="209.1" height="209.1" x="1454.4" y="326.4" filterUnits="userSpaceOnUse">
+      <feOffset dy="3"></feOffset>
+      <feGaussianBlur result="blur" stdDeviation="3"/>
+      <feFlood flood-color="#333" flood-opacity=".1"></feFlood>
+      <feComposite in2="blur" operator="in"></feComposite>
+      <feComposite in="SourceGraphic"></feComposite>
+    </filter>
+  </defs>
+  <g filter="url(#Ellipse)">
+    <circle cx="95.6" cy="95.6" r="95.6" fill="#f5f8ff" transform="translate(1463.4 332.4)"></circle>
+  </g>
+  <rect width="12.8" height="142.9" class="color-primary" rx="5" transform="translate(1552.6 358.1)"></rect>
+  <rect width="12.8" height="142.9" class="color-primary" rx="5" transform="rotate(90 603.6 1026.8)"/>
 </svg>

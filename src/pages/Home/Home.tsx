@@ -1,10 +1,14 @@
 import WeatherCard from '@/components/WeatherCard'
+import AddCard from '@/components/AddCard'
+
+import * as UI from './Home.styled';
 
 function Home() {
   return (
-    <div>
+    <UI.Container>
       <WeatherCard city="Hanoi" />
-    </div>
+      <AddCard />
+    </UI.Container>
   )
 }
 
