@@ -1,22 +1,44 @@
 import { useState, useEffect, useCallback } from 'react'
-import { head } from 'lodash-es'
-import { getWeather } from '@/services/weather'
+import { get, minBy, maxBy } from 'lodash-es'
+
+import { getWeather, getForecast } from '@/services/weather'
+import { toVietnameseDateString } from '@/shared/utils/date'
 
 import * as UI from './WeatherCard.styled'
 
 function WeatherCard(props: Props) {
   const [state, setState] = useState<any>()
   const [weatherData, setWeatherData] = useState<any>({})
+  const [forecastData, setForecastData] = useState<any>({})
 
   useEffect(() => {
     getWeather(props.city).then(data => {
-      setState(head(data.weather)?.main)
+      setState(data.weather[0].main)
 
       setWeatherData({
         temp: data.main.temp,
         minTemp: data.main.temp_min,
         maxTemp: data.main.temp_max,
-        description: head(data.weather)?.description
+        description: data.weather[0].description
+      })
+    })
+
+    getForecast(props.city).then(({ list }) => {
+      const currentDate = toVietnameseDateString()
+      const todayTemperatures = list.filter(
+        item => currentDate === toVietnameseDateString(item.dt_txt)
+      )
+
+      const minTemp = Math.round(
+        get(minBy(todayTemperatures, 'main.temp'), 'main.temp')
+      )
+      const maxTemp = Math.round(
+        get(maxBy(todayTemperatures, 'main.temp'), 'main.temp')
+      )
+
+      setForecastData({
+        minTemp,
+        maxTemp
       })
     })
   }, [props.city])
@@ -59,12 +81,16 @@ function WeatherCard(props: Props) {
       <UI.TemperatureMinMax>
         <UI.TemperatureMin>
           <UI.TemperatureMinIcon />
-          <UI.TemperatureMinCelsius>{weatherData.minTemp}</UI.TemperatureMinCelsius>
+          <UI.TemperatureMinCelsius>
+            {forecastData.minTemp}
+          </UI.TemperatureMinCelsius>
           <UI.TemperatureMinText>Min</UI.TemperatureMinText>
         </UI.TemperatureMin>
         <UI.TemperatureMax>
           <UI.TemperatureMaxIcon />
-          <UI.TemperatureMaxCelsius>{weatherData.maxTemp}</UI.TemperatureMaxCelsius>
+          <UI.TemperatureMaxCelsius>
+            {forecastData.maxTemp}
+          </UI.TemperatureMaxCelsius>
           <UI.TemperatureMaxText>Max</UI.TemperatureMaxText>
         </UI.TemperatureMax>
       </UI.TemperatureMinMax>

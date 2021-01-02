@@ -14,6 +14,17 @@ export interface CityWeatherData {
   }[]
 }
 
+export interface CityForecastData {
+  list: {
+    dt_txt: string,
+    main: {
+      temp: number,
+      temp_max: number,
+      temp_min: number
+    }
+  }[]
+}
+
 export function getWeather(
   city: string,
   metric: 'metric' | 'imperial' = 'metric'
@@ -26,7 +37,7 @@ export function getWeather(
 export function getForecast(
   city: string,
   metric: 'metric' | 'imperial' = 'metric'
-) {
+): Promise<CityForecastData> {
   return api.get(
     `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${metric}&APPID=${appId}`
   )
