@@ -4,7 +4,7 @@ import * as UI from './AddCard.styled'
 
 function AddCard() {
   return (
-    <UI.Container to="/add">
+    <UI.Container to="/add-city">
       <UI.Heading>Add City</UI.Heading>
       <UI.PlusIcon />
     </UI.Container>
