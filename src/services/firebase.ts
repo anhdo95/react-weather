@@ -1,4 +1,5 @@
 import firebase from 'firebase'
+import api from './api'
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -10,9 +11,10 @@ const config = {
 }
 
 firebase.initializeApp(config)
-firebase.database()
 
+const db = firebase.database()
 const auth = firebase.auth
+// const baseUrl = 'https://react-weather-9fd6d-default-rtdb.firebaseio.com'
 
 export function subscribeAuthChanged(
   callback: (a: firebase.User | null) => any
@@ -21,7 +23,7 @@ export function subscribeAuthChanged(
 }
 
 export function signUp(email: string, password: string) {
-  return auth().createUserWithEmailAndPassword(email, password);
+  return auth().createUserWithEmailAndPassword(email, password)
 }
 
 export function signIn(email: string, password: string) {
@@ -35,4 +37,11 @@ export function signInWithGoogle() {
 
 export function signOut() {
   return auth().signOut()
+}
+
+export function addCity(params: { city: string; userId: string }) {
+  return db.ref(`${params.userId}/${params.city}`).set({
+    name: params.city,
+    createdAt: new Date().toISOString()
+  })
 }

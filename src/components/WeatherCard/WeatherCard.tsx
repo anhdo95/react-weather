@@ -1,12 +1,19 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { get, minBy, maxBy } from 'lodash-es'
 
+import { selectCurrentUser } from '@/store/user'
 import { getWeather, getForecast } from '@/services/weather'
+import { addCity } from '@/services/firebase'
 import { toVietnameseDateString } from '@/shared/utils/date'
 
 import * as UI from './WeatherCard.styled'
 
 function WeatherCard(props: Props) {
+  const currentUser = useSelector(selectCurrentUser)
+  const history = useHistory()
+
   const [state, setState] = useState<any>()
   const [weatherData, setWeatherData] = useState<any>({})
   const [forecastData, setForecastData] = useState<any>({})
@@ -40,6 +47,19 @@ function WeatherCard(props: Props) {
       })
     })
   }, [props.city])
+
+  const handleAddCity = useCallback(() => {
+    const params = {
+      userId: currentUser.uid,
+      city: props.city
+    }
+
+    addCity(params)
+      .then(() => {
+        history.push('/')
+      })
+      .catch(console.error)
+  }, [currentUser.uid, props.city, history])
 
   const renderWeatherState = useCallback(() => {
     switch (state) {
@@ -92,7 +112,9 @@ function WeatherCard(props: Props) {
           <UI.TemperatureMaxText>Max</UI.TemperatureMaxText>
         </UI.TemperatureMax>
       </UI.TemperatureMinMax>
-      {props.addMode && <UI.AddButton>Add</UI.AddButton>}
+      {props.addMode && (
+        <UI.AddButton onClick={handleAddCity}>Add</UI.AddButton>
+      )}
     </UI.Container>
   )
 }
