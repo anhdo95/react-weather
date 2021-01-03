@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
@@ -78,7 +78,9 @@ function Header() {
       <SlideMenu />
       <Left>
         <Hamburger onClick={handleHamburgerClick} />
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
       </Left>
       <Heading>Today</Heading>
       <ModeToggleContainer>

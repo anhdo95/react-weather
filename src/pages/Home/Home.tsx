@@ -21,8 +21,8 @@ function Home() {
 
   return (
     <UI.Container>
-      {renderWeatherCards()}
       <AddCard />
+      {renderWeatherCards()}
     </UI.Container>
   )
 }

@@ -106,7 +106,7 @@ function WeatherCard(props: Props) {
   }, [state])
 
   return (
-    <UI.Container>
+    <UI.Container to={`/details/${props.city}`}>
       <UI.CityName>{props.city}</UI.CityName>
       {renderWeatherState()}
       <UI.TemperatureContainer>

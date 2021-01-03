@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { reduce } from 'lodash-es'
 
@@ -9,18 +10,19 @@ import { ReactComponent as StormSvg } from '@/assets/svg/storm.svg'
 import { ReactComponent as DownArrowSvg } from '@/assets/svg/down-arrow.svg'
 import { ReactComponent as UpArrowSvg } from '@/assets/svg/up-arrow.svg'
 
-export const Container = styled.section`
+export const Container = styled(Link)`
   display: grid;
   grid-gap: 1rem;
+  justify-items: center;
   width: 19rem;
   min-height: 25rem;
-  box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
-  justify-items: center;
-  padding: 2rem;
   margin: 2rem;
-  cursor: pointer;
+  padding: 2rem;
+  text-decoration: none;
   background-color: #fff;
   border-radius: 1.75rem;
+  box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
+  cursor: pointer;
 `
 
 export const CityName = styled.h3`
