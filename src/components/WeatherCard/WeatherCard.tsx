@@ -16,9 +16,7 @@ function WeatherCard(props: Props) {
       setState(data.weather[0].main)
 
       setWeatherData({
-        temp: data.main.temp,
-        minTemp: data.main.temp_min,
-        maxTemp: data.main.temp_max,
+        temp: Math.round(data.main.temp),
         description: data.weather[0].description
       })
     })
@@ -76,7 +74,7 @@ function WeatherCard(props: Props) {
       {renderWeatherState()}
       <UI.TemperatureContainer>
         <UI.TemperatureCelsius>{weatherData.temp}&#176;</UI.TemperatureCelsius>
-        <UI.TemperatureText>{weatherData.shortDescription}</UI.TemperatureText>
+        <UI.TemperatureText>{weatherData.description}</UI.TemperatureText>
       </UI.TemperatureContainer>
       <UI.TemperatureMinMax>
         <UI.TemperatureMin>
@@ -94,11 +92,13 @@ function WeatherCard(props: Props) {
           <UI.TemperatureMaxText>Max</UI.TemperatureMaxText>
         </UI.TemperatureMax>
       </UI.TemperatureMinMax>
+      {props.addMode && <UI.AddButton>Add</UI.AddButton>}
     </UI.Container>
   )
 }
 
 interface Props {
+  addMode?: boolean
   city: string
 }
 

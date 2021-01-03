@@ -6,26 +6,19 @@ import querystring from 'querystring'
 import { signIn, signInWithGoogle } from '@/services/firebase'
 import { ReactComponent as GoogleSvg } from '@/assets/svg/google.svg'
 
-const Container = styled.div`
-  display: grid;
-  place-items: center;
-  height: 100%;
-  background: linear-gradient(to top right, var(--color-primary), #f2f2f2);
-`
+const Container = styled.div.attrs({
+  className: 'page-bg'
+})``
 
-const Card = styled.div`
-  width: 90%;
-  height: 35rem;
-  max-width: 1024px;
+const Card = styled.div.attrs(() => ({
+  className: 'page-content'
+}))`
   background-image: linear-gradient(
       105deg,
       rgba(255, 255, 255, 0.85) 50%,
       transparent 50%
     ),
     url(https://anhdo95.github.io/Natours/img/nat-10.jpg);
-  background-size: cover;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 `
 
 const CardContent = styled.main`

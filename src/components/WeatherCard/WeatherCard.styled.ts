@@ -11,12 +11,13 @@ import { ReactComponent as UpArrowSvg } from '@/assets/svg/up-arrow.svg'
 
 export const Container = styled.section`
   display: grid;
+  grid-gap: 1rem;
   width: 19rem;
+  min-height: 25rem;
   box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
   justify-items: center;
   padding: 2rem;
   margin: 2rem;
-  height: 30rem;
   cursor: pointer;
   background-color: #fff;
   border-radius: 1.75rem;
@@ -90,7 +91,7 @@ export const TemperatureMaxIcon = styled(UpArrowSvg)`
 `
 
 export const TemperatureMinCelsius = styled.span`
-  font-size: 2rem;
+  font-size: 1.25rem;
 `
 
 export const TemperatureMaxCelsius = styled(TemperatureMinCelsius)``
@@ -98,3 +99,9 @@ export const TemperatureMaxCelsius = styled(TemperatureMinCelsius)``
 export const TemperatureMinText = styled.span``
 
 export const TemperatureMaxText = styled.span``
+
+export const AddButton = styled.button.attrs(() => ({
+  className: 'form-button form-button--primary'
+}))`
+  
+`
