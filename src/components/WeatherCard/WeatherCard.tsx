@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { get, minBy, maxBy } from 'lodash-es'
 
 import { selectCurrentUser } from '@/store/user'
+import { selectUserCities } from '@/store/weather'
 import { getWeather, getForecast } from '@/services/weather'
 import { addCity } from '@/services/firebase'
 import { toVietnameseDateString } from '@/shared/utils/date'
@@ -12,11 +13,27 @@ import * as UI from './WeatherCard.styled'
 
 function WeatherCard(props: Props) {
   const currentUser = useSelector(selectCurrentUser)
+  const useCities = useSelector(selectUserCities)
   const history = useHistory()
 
   const [state, setState] = useState<any>()
   const [weatherData, setWeatherData] = useState<any>({})
   const [forecastData, setForecastData] = useState<any>({})
+
+  const maxTemperature = useMemo(
+    () => Math.max(forecastData.maxTemp, weatherData.temp),
+    [forecastData.maxTemp, weatherData.temp]
+  )
+
+  const minTemperature = useMemo(
+    () => Math.min(forecastData.minTemp, weatherData.temp),
+    [forecastData.minTemp, weatherData.temp]
+  )
+
+  const cityAdded = useMemo(() => useCities.includes(props.city), [
+    useCities,
+    props.city
+  ])
 
   useEffect(() => {
     getWeather(props.city).then(data => {
@@ -59,7 +76,7 @@ function WeatherCard(props: Props) {
         history.push('/')
       })
       .catch(console.error)
-  }, [currentUser.uid, props.city, history])
+  }, [currentUser, props.city, history])
 
   const renderWeatherState = useCallback(() => {
     switch (state) {
@@ -99,21 +116,19 @@ function WeatherCard(props: Props) {
       <UI.TemperatureMinMax>
         <UI.TemperatureMin>
           <UI.TemperatureMinIcon />
-          <UI.TemperatureMinCelsius>
-            {forecastData.minTemp}
-          </UI.TemperatureMinCelsius>
+          <UI.TemperatureMinCelsius>{minTemperature}</UI.TemperatureMinCelsius>
           <UI.TemperatureMinText>Min</UI.TemperatureMinText>
         </UI.TemperatureMin>
         <UI.TemperatureMax>
           <UI.TemperatureMaxIcon />
-          <UI.TemperatureMaxCelsius>
-            {forecastData.maxTemp}
-          </UI.TemperatureMaxCelsius>
+          <UI.TemperatureMaxCelsius>{maxTemperature}</UI.TemperatureMaxCelsius>
           <UI.TemperatureMaxText>Max</UI.TemperatureMaxText>
         </UI.TemperatureMax>
       </UI.TemperatureMinMax>
       {props.addMode && (
-        <UI.AddButton onClick={handleAddCity}>Add</UI.AddButton>
+        <UI.AddButton disabled={cityAdded} onClick={handleAddCity}>
+          Add
+        </UI.AddButton>
       )}
     </UI.Container>
   )

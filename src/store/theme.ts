@@ -1,10 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-interface State {
-  theme: {
-    openSlideMenu: boolean
-  }
-}
+import State from './state'
 
 const themeSlice = createSlice({
   name: 'theme',

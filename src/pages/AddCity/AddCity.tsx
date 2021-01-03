@@ -33,15 +33,15 @@ function AddCity() {
     <UI.Container>
       <UI.Card>
         <UI.Heading>Search Cities</UI.Heading>
-        <Autocomplete
-          items={cities}
-          itemToString={itemToString}
-          onInputValueChange={handleAutocompleteInputChange}
-          onSelect={handleAutocompleteSelect}
-        />
-        {selectedCity && (
-          <WeatherCard addMode city={selectedCity} />
-        )}
+        <UI.Search>
+          <Autocomplete
+            items={cities}
+            itemToString={itemToString}
+            onInputValueChange={handleAutocompleteInputChange}
+            onSelect={handleAutocompleteSelect}
+          />
+        </UI.Search>
+        {selectedCity && <WeatherCard addMode city={selectedCity} />}
       </UI.Card>
     </UI.Container>
   )

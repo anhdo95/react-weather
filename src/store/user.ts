@@ -1,18 +1,15 @@
-import firebase from 'firebase'
 import { createSlice } from '@reduxjs/toolkit'
+import firebase from 'firebase'
 
-interface State {
-  user: {
-    isAuthenticated: boolean
-    currentUser: firebase.User
-  }
-}
+import State from './state'
 
 const userSlice = createSlice({
   name: 'user',
   initialState: {
     isAuthenticated: JSON.parse(localStorage.getItem('isLoggedIn') as string),
-    currentUser: null
+    currentUser: JSON.parse(
+      localStorage.getItem('currentUser') as string
+    ) as firebase.User
   },
   reducers: {
     setIsAuthenticated(state, action) {

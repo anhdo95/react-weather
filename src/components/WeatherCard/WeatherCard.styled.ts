@@ -103,5 +103,6 @@ export const TemperatureMaxText = styled.span``
 export const AddButton = styled.button.attrs(() => ({
   className: 'form-button form-button--primary'
 }))`
-  
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  opacity: ${props => props.disabled ? 0.5 : 1};
 `

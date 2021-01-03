@@ -1,29 +1,39 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, Dispatch } from '@reduxjs/toolkit'
+import { getCities } from '@/services/firebase'
 
-interface State {
-  weather: {}
-}
+import State from './state'
 
-const userSlice = createSlice({
-  name: 'user',
+const weatherSlice = createSlice({
+  name: 'weather',
   initialState: {
-    isAuthenticated: JSON.parse(localStorage.getItem('isLoggedIn') as string),
-    currentUser: null
+    userCities: []
   },
   reducers: {
-    setIsAuthenticated(state, action) {
-      state.isAuthenticated = action.payload
+    setUserCities(state, action) {
+      state.userCities = action.payload
     },
-    setCurrentUser(state, action) {
-      state.currentUser = action.payload
-    }
   }
 })
 
-export const reducer = userSlice.reducer
+export const reducer = weatherSlice.reducer
 
 // Selectors
-// export const selectCurrentUser = (state: State) => state.user.currentUser
+export const selectUserCities = (state: State) => state.weather.userCities
 
 // Actions
-export const { setIsAuthenticated, setCurrentUser } = userSlice.actions
+export const { setUserCities } = weatherSlice.actions
+
+// Thunks
+export const fetchUserCities = () => {
+  return async (dispatch: Dispatch, getState: () => State) => {
+    try {
+      const state = getState()
+      const citiesSnapshot = await getCities(state.user.currentUser.uid)
+      const cities = citiesSnapshot.toJSON()
+
+      dispatch(setUserCities(Object.keys(cities || {})))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}

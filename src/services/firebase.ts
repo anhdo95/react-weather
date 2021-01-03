@@ -39,6 +39,10 @@ export function signOut() {
   return auth().signOut()
 }
 
+export function getCities(userId: string) {
+  return db.ref(userId).once('value')
+}
+
 export function addCity(params: { city: string; userId: string }) {
   return db.ref(`${params.userId}/${params.city}`).set({
     name: params.city,
