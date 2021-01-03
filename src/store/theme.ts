@@ -10,6 +10,9 @@ const themeSlice = createSlice({
     toggleSlideMenu(state) {
       state.openSlideMenu = !state.openSlideMenu
     },
+    closeSlideMenu(state) {
+      state.openSlideMenu = false
+    }
   }
 })
 
@@ -18,4 +21,4 @@ export const reducer = themeSlice.reducer
 export const selectOpenSlideMenu = (state: State) =>
   state.theme.openSlideMenu
 
-export const { toggleSlideMenu } = themeSlice.actions
+export const { toggleSlideMenu, closeSlideMenu } = themeSlice.actions

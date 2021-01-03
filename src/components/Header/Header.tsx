@@ -1,8 +1,10 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useCallback } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import { selectIsAuthenticated } from '@/store/user'
-import { toggleSlideMenu } from '@/store/theme'
+import { toggleSlideMenu, closeSlideMenu } from '@/store/theme'
 import SlideMenu from '@/components/SlideMenu'
 import ToggleButton from '@/components/ToggleButton'
 
@@ -13,9 +15,9 @@ const Container = styled.header<{ show: boolean }>`
   display: grid;
   grid-template-columns: auto 1fr auto;
   place-items: center;
-  height: ${props => props.show ? '3.5rem' : 0};
+  height: ${props => (props.show ? '3.5rem' : 0)};
   padding: 0 1rem;
-  box-shadow: 0 0 2rem rgba(0,0,255,.1);
+  box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
   overflow: hidden;
 `
 
@@ -43,7 +45,7 @@ const Heading = styled.h3.attrs(() => ({
   className: 'heading-primary'
 }))`
   text-transform: uppercase;
-  letter-spacing: .1rem;
+  letter-spacing: 0.1rem;
 `
 
 const ModeToggleContainer = styled.div`
@@ -53,19 +55,23 @@ const ModeToggleContainer = styled.div`
 `
 
 const ModeToggleText = styled.span`
-  font-size: .75rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: .1rem;
+  letter-spacing: 0.1rem;
 `
-
 
 function Header() {
   const isAuthenticated = useSelector(selectIsAuthenticated)
   const dispatch = useDispatch()
+  const location = useLocation()
 
-  const handleHamburgerClick = function() {
+  useEffect(() => {
+    dispatch(closeSlideMenu())
+  }, [location, dispatch])
+
+  const handleHamburgerClick = useCallback(() => {
     dispatch(toggleSlideMenu())
-  }
+  }, [dispatch])
 
   return (
     <Container show={isAuthenticated}>
