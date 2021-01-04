@@ -1,4 +1,11 @@
+import { reduce } from 'lodash-es'
 import styled from 'styled-components'
+
+import { ReactComponent as SunnySvg } from '@/assets/svg/sunny.svg'
+import { ReactComponent as CloudsSvg } from '@/assets/svg/clouds.svg'
+import { ReactComponent as RainSvg } from '@/assets/svg/rain.svg'
+import { ReactComponent as FogSvg } from '@/assets/svg/fog.svg'
+import { ReactComponent as StormSvg } from '@/assets/svg/storm.svg'
 
 export const Container = styled.div.attrs({
   className: 'page-bg'
@@ -7,6 +14,8 @@ export const Container = styled.div.attrs({
 export const Card = styled.div.attrs(() => ({
   className: 'page-content'
 }))`
+  display: grid;
+  align-items: start;
   background: #fff;
 `
 
@@ -91,4 +100,63 @@ export const City = styled.h3.attrs(() => ({
     margin-top: 1rem;
     background: #fff;
   }
+`
+
+export const ForecastContainer = styled.ul`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 2.5rem;
+  justify-content: space-evenly;
+  align-content: center;
+  background: #fff;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+`
+
+export const DayWeather = styled.li`
+  display: grid;
+  grid-gap: 1rem;
+  justify-items: center;
+`
+
+export const DayOfWeek = styled.span`
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #39437a;
+`
+
+interface WeatherIcon {
+  [key: string]: React.FunctionComponent
+}
+
+export const Icon: WeatherIcon = reduce(
+  {
+    Sunny: SunnySvg,
+    Clouds: CloudsSvg,
+    Rain: RainSvg,
+    Fog: FogSvg,
+    Storm: StormSvg
+  },
+  (icons: WeatherIcon, Svg: React.FunctionComponent, name: string) => {
+    icons[name] = styled(Svg)`
+      width: 4rem;
+    `
+
+    return icons
+  },
+  {}
+)
+
+export const DayTemperatureCelsius = styled.span`
+  font-size: 1.85rem;
+  letter-spacing: 0.25rem;
+  color: #0c1066;
+`
+
+export const DayTemperatureState = styled.span`
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  color: #2b244d;
 `
